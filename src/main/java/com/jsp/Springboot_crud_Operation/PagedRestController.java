@@ -47,7 +47,6 @@ public class PagedRestController {
         userRepo.save(updatedUser);
         return "Updated...";
     }
-
     @DeleteMapping("/delete/{id}")
     public String deleteUser(@PathVariable long id) {
         User deleteUser = userRepo.findById(id).orElseThrow(() -> new ResourceNotFoundException("User not found"));
