@@ -40,8 +40,8 @@ public class PagedRestController<Students> {
     @PutMapping("/update/{id}")
     public String updateUser(@PathVariable long id, @RequestBody User user) {
         User updatedUser = userRepo.findById(id).orElseThrow(() -> new ResourceNotFoundException("User not found"));
-        updatedUser.setFirst_name(user.getFirst_name());
-        updatedUser.setLast_name(user.getLast_name());
+        updatedUser.setFirstname(user.getFirstname());
+        updatedUser.setLastname(user.getLastname());
         updatedUser.setOccupation(user.getOccupation());
         updatedUser.setAge(user.getAge());
         userRepo.save(updatedUser);
