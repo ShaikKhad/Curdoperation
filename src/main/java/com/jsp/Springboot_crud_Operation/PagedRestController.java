@@ -6,6 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class PagedRestController {
+public class PagedRestController<Students> {
 
     @Autowired
     private UserRepository userRepo;
@@ -36,11 +37,10 @@ public class PagedRestController {
         userRepo.save(user);
         return "Saved...";
     }
-
     @PutMapping("/update/{id}")
     public String updateUser(@PathVariable long id, @RequestBody User user) {
         User updatedUser = userRepo.findById(id).orElseThrow(() -> new ResourceNotFoundException("User not found"));
-        updatedUser.setFrist_name(user.getFrist_name());
+        updatedUser.setFirst_name(user.getFirst_name());
         updatedUser.setLast_name(user.getLast_name());
         updatedUser.setOccupation(user.getOccupation());
         updatedUser.setAge(user.getAge());
@@ -62,8 +62,9 @@ public class PagedRestController {
         return userRepo.findAll(paging);
     }
 
-    @GetMapping("/users/sort")
-    public List<User> getUsersWithSorting(@RequestParam String sortBy) {
-        return userRepo.findAll(Sort.by(sortBy));
-    }
+    @GetMapping("/sorting") 
+	public Iterable<User>getAllByCols (@RequestParam String field1) 
+	{ 
+		return userRepo.findAll(Sort.by(Direction.ASC, field1)); 
+	}
 }
